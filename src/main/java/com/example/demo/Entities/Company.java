@@ -1,8 +1,7 @@
 package com.example.demo.Entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 
@@ -36,6 +37,14 @@ public class Company {
 		@OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.MERGE)
 		@JoinColumn(name = "Company_id")
 		private Collection <Coupon> coupons;
+		
+		
+		
+		@OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.MERGE)
+		@Fetch(value = FetchMode.SUBSELECT)
+		@JoinColumn(name = "Company_companyName")
+		private Collection <Transactions> transactions;
+		
 		
 		@Override
 		public String toString() {
@@ -97,7 +106,16 @@ public class Company {
 		}
 
 
+		public Collection<Transactions> getTransactions() {
+			return transactions;
+		}
 
-		
+
+		public void setTransactions(Collection<Transactions> transactions) {
+			this.transactions = transactions;
+		}
+
+
+	
 
 }

@@ -16,7 +16,8 @@ public interface CouponRepo extends CrudRepository<Coupon, Integer>{
 	@Query ("SELECT c FROM COUPONS c WHERE c.id = :couponId AND c.endDate >= :buyDate")
 	Coupon findCouponByIdAndTime (@Param("couponId") int couponId , @Param ("buyDate") Date buyDate);
 	
-	
+//	@Query ("SELECT c FROM COUPONS c WHEREc.endDate >= :buyDate")
+//	Coupon findCouponByTimeAvailable (@Param ("buyDate") Date buyDate);
 	
 	
 	

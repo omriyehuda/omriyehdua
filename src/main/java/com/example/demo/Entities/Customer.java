@@ -12,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 @Component
 @Entity(name = "CUSTOMERS")
@@ -28,12 +31,17 @@ public class Customer {
 	@Column
 	private String password;
 	
-	@ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH , CascadeType.MERGE, CascadeType.REFRESH})
+	@ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH ,  CascadeType.REFRESH})
 	@JoinTable(name="Customer_Coupon",
 				joinColumns=@JoinColumn(name="Customer_id"),
 				inverseJoinColumns = @JoinColumn(name = "Coupon_id"))
 
 	private Collection <Coupon> coupons ;
+	
+	@OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.MERGE)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JoinColumn(name = "Customer_customerName")
+	private Collection <Transactions> transactions;
 	
 	public Customer() {
 		super();
@@ -79,6 +87,18 @@ public class Customer {
 	public String toString() {
 		return "Customer [id=" + id + ", customer=" + customerName + ", password=" + password + "]";
 	}
+
+	public Collection<Transactions> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(Collection<Transactions> transactions) {
+		this.transactions = transactions;
+	}
+
+	
+
+	
 
 	
 }

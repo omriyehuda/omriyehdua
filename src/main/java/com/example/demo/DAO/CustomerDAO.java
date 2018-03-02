@@ -19,7 +19,7 @@ public interface CustomerDAO {
 	void updateCustomer (Customer c);
 	Customer getCustomer (int id);
 	Collection getAllCustomers();
-	Collection getCoupons(Customer c);
+	Collection getCoupons();
 	boolean login (String customer_name ,String password);
 	
 

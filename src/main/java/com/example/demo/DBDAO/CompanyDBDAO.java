@@ -1,6 +1,8 @@
 package com.example.demo.DBDAO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -17,9 +19,12 @@ import com.example.demo.Exception.CompanyDoesntExistExeption;
 @Component
 public class CompanyDBDAO implements CompanyDAO{
 	
-	
+	Company loggedInCompany;
 	@Autowired
 	private CompanyRepo companyRepo;
+	@Autowired
+	private TransactionsDBDAO transactionsDbdao;
+	
 	
 	ArrayList<Company> listOfCompanies =new ArrayList<Company>();
 	
@@ -51,7 +56,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Override
 	public void updateCompany(Company c) throws CompanyDoesntExistExeption{
 		
-		Company tempCompany = companyRepo.findCompanyById(c.getId());
+		Company tempCompany = companyRepo.findCompanyByCompanyName(c.getCompanyName());
 		tempCompany.setCoupons(c.getCoupons());
 		tempCompany.setEmail(c.getEmail());
 		tempCompany.setPassword(c.getPassword());
@@ -72,13 +77,16 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	@Override
 	public Collection getCoupons() {
-		return null;
+		
+		return loggedInCompany.getCoupons();
 	}
 
 	@Override
 	public boolean login(String company_name, String password) {
 		
 		if (companyRepo.findCompanyByNameAndPassword(company_name, password)!=null ){
+			loggedInCompany = companyRepo.findCompanyByNameAndPassword(company_name,password);
+			
 			return true ;
 		}
 		
@@ -86,27 +94,27 @@ public class CompanyDBDAO implements CompanyDAO{
 	}
 
 	
-	public List getCouponsByType(Company company,CouponType type){
+	public List getCouponsByType(CouponType type){
 		
-		int id = company.getId();
-		return companyRepo.getCouponsByType(id, type);
+		
+		return companyRepo.getCouponsByType(loggedInCompany.getId(), type);
 		
 	}
 	
 
 		
-	public List getCouponsByPrice (Company company , double price )	{
+	public List getCouponsByPrice ( double price )	{
 		
-		int id = company.getId();
-		return companyRepo.getAllCouponsByPrice(id, price);
+	
+		return companyRepo.getAllCouponsByPrice(loggedInCompany.getId(), price);
 	}
 	
 	
 
-	public List getCouponsByDate(Company company,Date date)	{
+	public List getCouponsByDate()	{
 		
-		int id = company.getId();
-		return companyRepo.getCouponsByDate(id, date);
+		Date today = Calendar.getInstance().getTime();
+		return companyRepo.getCouponsByDate(loggedInCompany.getId(), today);
 		
 	}
 		

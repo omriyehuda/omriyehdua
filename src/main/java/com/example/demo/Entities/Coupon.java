@@ -46,7 +46,7 @@ import org.springframework.stereotype.Component;
 		@Column
 		private String image;
 		
-		@ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH , CascadeType.MERGE, CascadeType.REFRESH})
+		@ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH ,  CascadeType.REFRESH})
 		@JoinTable(name="Customer_Coupon",
 					joinColumns=@JoinColumn(name="Coupon_id"),
 					inverseJoinColumns = @JoinColumn(name = "Customer_id"))

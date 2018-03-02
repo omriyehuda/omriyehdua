@@ -10,11 +10,13 @@ import org.springframework.stereotype.Component;
 import com.example.demo.DBDAO.CompanyDBDAO;
 import com.example.demo.DBDAO.CouponDBDAO;
 import com.example.demo.DBDAO.CustomerDBDAO;
+import com.example.demo.DBDAO.TransactionsDBDAO;
 import com.example.demo.Entities.Company;
 import com.example.demo.Entities.Coupon;
 import com.example.demo.Entities.CouponType;
 import com.example.demo.Exception.CompanyDoesntExistExeption;
 import com.example.demo.Exception.CouponAllReadyExistException;
+import com.example.demo.Exception.CouponDoesntAvailableExeption;
 import com.example.demo.Exception.CouponDoesntExistExeption;
 import com.example.demo.Exception.CouponTitleAllreadyExistException;
 import com.example.demo.Exception.PasswordNotCorrectException;
@@ -29,7 +31,8 @@ public class CompanyFacade implements CouponClientFacade{
 	private CustomerDBDAO customerDbdao;
 	@Autowired
 	private CouponDBDAO couponDbdao;
-	
+	@Autowired
+	private TransactionsDBDAO transactionsDbdao;
 	
 	@Override
 	public CouponClientFacade login(String name, String password, ClientType clientType) {
@@ -43,6 +46,10 @@ public class CompanyFacade implements CouponClientFacade{
 	public CompanyFacade(){
 		
 	}
+	
+	
+	
+	
 	public void createCoupon(Coupon c) throws CouponAllReadyExistException ,CouponTitleAllreadyExistException{
 		if (couponDbdao.getCoupon(c.getId())!=null){
 			throw new CouponAllReadyExistException("the coupon all ready exist");	
@@ -55,6 +62,11 @@ public class CompanyFacade implements CouponClientFacade{
 		}
 	}
 	
+	
+	
+	
+	
+	
 	public void removeCoupon(Coupon c) throws CouponDoesntExistExeption{
 		
 		if(couponDbdao.getCoupon(c.getId())!=null){
@@ -63,6 +75,11 @@ public class CompanyFacade implements CouponClientFacade{
 		else throw new CouponDoesntExistExeption("the coupon doesnt exist");
 		
 	}
+	
+	
+	
+	
+	
 	
 	public void updateCoupon(Coupon c)throws CouponDoesntExistExeption{
 		if(couponDbdao.getCoupon(c.getId())==null){
@@ -73,6 +90,10 @@ public class CompanyFacade implements CouponClientFacade{
 		couponDbdao.updateCoupon(c);
 	}
 	
+	
+	
+	
+	
 	public Company getCompany(int id)throws CompanyDoesntExistExeption{
 		
 		if(companyDbdao.getCompany(id)==null){
@@ -81,6 +102,10 @@ public class CompanyFacade implements CouponClientFacade{
 		
 		return  companyDbdao.getCompany(id);
 	}
+	
+	
+	
+	
 	public Collection getAllCoupons(Company company)throws CompanyDoesntExistExeption{
 		
 		if(companyDbdao.getCompany(company.getId())==null){
@@ -93,39 +118,50 @@ public class CompanyFacade implements CouponClientFacade{
 		return tempListOfCoupons;
 	}
 	
-	public Collection getCouponsByType(Company company,CouponType type)throws CompanyDoesntExistExeption{
-		if(companyDbdao.getCompany(company.getId())==null){
-			throw new CompanyDoesntExistExeption ( "company doesnt exist");
+	
+	
+	
+	public Collection getCouponsByType(CouponType type)throws CouponDoesntExistExeption{
+		
+		
+		if(companyDbdao.getCouponsByType(type)==null){
+			throw new CompanyDoesntExistExeption ( "Coupons doesnt exist");
 		}
 		
-		return companyDbdao.getCouponsByType(company, type);
+		return companyDbdao.getCouponsByType( type);
 		
 	}
 	
-	public Collection getCouponsByPrice(Company company,int price) throws PriceCantBeMinusException, CompanyDoesntExistExeption{
-		if(companyDbdao.getCompany(company.getId())==null){
-			throw new CompanyDoesntExistExeption ( "company doesnt exist");
+	
+	
+	
+	public Collection getCouponsByPrice(int price) throws PriceCantBeMinusException, CouponDoesntExistExeption{
+		if(companyDbdao.getCouponsByPrice(price)==null){
+			throw new CompanyDoesntExistExeption ( "Coupons doesnt exist check the price");
 		}
 		if (price<0){
 			throw new PriceCantBeMinusException("price need to be greater than 0");
 		}
-		return companyDbdao.getCouponsByPrice(company, price);
+		return companyDbdao.getCouponsByPrice( price);
 		
 	}
 	
-	public Collection getCouponsByDate(Company company , Date date)throws CompanyDoesntExistExeption ,CompanyDoesntExistExeption {
+	
+	
+	
+	
+	
+	public Collection getCouponsByDate()throws CouponDoesntAvailableExeption{
 		
-		if(companyDbdao.getCompany(company.getId())==null){
-			throw new CompanyDoesntExistExeption ( "company doesnt exist");
+		if(companyDbdao.getCouponsByDate()==null){
+			throw new CompanyDoesntExistExeption ( "there is no coupons that match this date");
 	
 		}
-		if (companyDbdao.getCouponsByDate(company, date).isEmpty()){
-			throw new CompanyDoesntExistExeption("there is no coupons that match this date");
-		}
-		return companyDbdao.getCouponsByDate(company, date);
+		
+		return companyDbdao.getCouponsByDate();
 		
 	}
-	//login
+
 	
 	
 	

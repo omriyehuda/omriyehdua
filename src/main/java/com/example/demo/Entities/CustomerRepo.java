@@ -23,4 +23,8 @@ public interface CustomerRepo extends CrudRepository<Customer , Integer>  {
 	
 	@Query ("SELECT c FROM CUSTOMERS c WHERE c.customerName = :customer_name AND c.password = :customer_pass")
 	Customer findCustomerByNameAndPassword(@Param("customer_name") String customer_name , @Param("customer_pass")String cust_password);
+
+	@Query ("SELECT coup FROM CUSTOMERS cust INNER JOIN cust.coupons AS coup WHERE cust.id = :customerId AND coup.id = :coupId")
+	Coupon CustomerContainCoupon (@Param("customerId")int customerId,@Param("coupId") int coupId);
+	
 }

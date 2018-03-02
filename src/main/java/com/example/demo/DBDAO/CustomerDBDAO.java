@@ -14,15 +14,20 @@ import com.example.demo.Entities.CouponRepo;
 import com.example.demo.Entities.CouponType;
 import com.example.demo.Entities.Customer;
 import com.example.demo.Entities.CustomerRepo;
+import com.example.demo.Entities.EnumFacade;
+import com.example.demo.Exception.CouponAllReadyExistException;
 import com.example.demo.Exception.CustomerDoesntExistExeption;
 @Component
 public class CustomerDBDAO implements CustomerDAO
 {
 
+	Customer loggedInCustomer;
 	@Autowired
 	CustomerRepo customerRepo;
 	@Autowired
 	CouponRepo couponRepo;
+	@Autowired
+	TransactionsDBDAO transactionsDbdao;
 	
 	@Override
 	public void createCustomer(Customer c) {
@@ -58,15 +63,22 @@ public class CustomerDBDAO implements CustomerDAO
 	}
 
 	@Override
-	public ArrayList getCoupons(Customer c) {
+	public ArrayList getCoupons() {
 		
-		return (ArrayList) c.getCoupons();
+		return (ArrayList) loggedInCustomer.getCoupons();
+	}
+	
+	public Coupon getCouponById(int id){
+		
+		return couponRepo.findCouponById(id);
 	}
 
 	@Override
 	public boolean login(String customer_name, String password) {
-		
-		if (customerRepo.findCustomerByNameAndPassword(customer_name, password)!=null ){
+
+		loggedInCustomer = customerRepo.findCustomerByNameAndPassword(customer_name, password);  
+		if (loggedInCustomer!=null ){
+			
 			return true;	
 		}
 		
@@ -78,14 +90,25 @@ public class CustomerDBDAO implements CustomerDAO
 	}
 	
 	
-	public void buyCoupon(Customer customer , Coupon coupon){
+	public void buyCoupon(Coupon coupon){
+	
+		if(customerRepo.CustomerContainCoupon(loggedInCustomer.getId(), coupon.getId())!=null){
+			transactionsDbdao.writeToTable("purchaseCoupon", false, EnumFacade.CustomerFacade);
+			throw new CouponAllReadyExistException("you can buy a coupon only once");
+		}
 		
-
+		coupon.setAmount(coupon.getAmount()-1);
+		this.loggedInCustomer.getCoupons().add(coupon);
+		customerRepo.save(loggedInCustomer);
+		couponRepo.save(coupon);
+		transactionsDbdao.writeToTableCustomer("purchaseCoupon", true, EnumFacade.CustomerFacade, loggedInCustomer);
+		
+		
+	}
+	
+	public Coupon getCouponByIdAndTimeAvailable(Coupon coupon){
 		Date today = Calendar.getInstance().getTime();
-		int couponId = coupon.getId();
-		Coupon c = couponRepo.findCouponByIdAndTime(couponId,today );
-		customer.getCoupons().add(c);
-		
+		return couponRepo.findCouponByIdAndTime(coupon.getId(), today);
 	}
 
 	public List getAllPurchaseCouponsByType(Customer customer , CouponType type){
