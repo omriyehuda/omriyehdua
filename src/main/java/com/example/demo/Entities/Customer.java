@@ -38,10 +38,6 @@ public class Customer {
 
 	private Collection <Coupon> coupons ;
 	
-	@OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.MERGE)
-	@Fetch(value = FetchMode.SUBSELECT)
-	@JoinColumn(name = "Customer_customerName")
-	private Collection <Transactions> transactions;
 	
 	public Customer() {
 		super();
@@ -88,15 +84,23 @@ public class Customer {
 		return "Customer [id=" + id + ", customer=" + customerName + ", password=" + password + "]";
 	}
 
-	public Collection<Transactions> getTransactions() {
-		return transactions;
-	}
+//	public Collection<Transactions> getTransactions() {
+//		return transactions;
+//	}
+//
+//	public void setTransactions(Collection<Transactions> transactions) {
+//		this.transactions = transactions;
+//	}
 
-	public void setTransactions(Collection<Transactions> transactions) {
-		this.transactions = transactions;
-	}
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Customer)) {
+			return false;
+		}
 
-	
+		return id == ((Customer) obj).getId()
+				;
+	}
 
 	
 

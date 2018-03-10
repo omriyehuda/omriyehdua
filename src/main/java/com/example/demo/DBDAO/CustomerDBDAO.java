@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.DAO.CustomerDAO;
+import com.example.demo.Entities.Company;
 import com.example.demo.Entities.Coupon;
 import com.example.demo.Entities.CouponRepo;
 import com.example.demo.Entities.CouponType;
@@ -17,39 +18,63 @@ import com.example.demo.Entities.CustomerRepo;
 import com.example.demo.Entities.EnumFacade;
 import com.example.demo.Exception.CouponAllReadyExistException;
 import com.example.demo.Exception.CustomerDoesntExistExeption;
+/**
+ * CustomerDBDAO implements CustomerDAO 
+ * @author omri
+ * all the method to control customer user from CustomerFacade. 
+ */
 @Component
 public class CustomerDBDAO implements CustomerDAO
 {
 
-	Customer loggedInCustomer;
+	private Customer loggedInCustomer;
 	@Autowired
-	CustomerRepo customerRepo;
+	private CustomerRepo customerRepo;
 	@Autowired
-	CouponRepo couponRepo;
+	private CouponRepo couponRepo;
 	@Autowired
-	TransactionsDBDAO transactionsDbdao;
+	private  TransactionsDBDAO transactionsDbdao;
 	
+	/**
+	 * method to create a customer
+	 * @param c - created customer 
+	 */
 	@Override
 	public void createCustomer(Customer c) {
 		customerRepo.save(c);
 	
 	}
 	
+	/**
+	 * method to remove customer
+	 * @param c - removed customer
+	 */
+	
 	@Override
 	public void removeCustomer(Customer c) {
 		customerRepo.delete(c);
 		
 	}
-	
+
+	/**
+	 * method to update customer password and list of coupons
+	 * @param c - updated customer
+	 */
 	@Override
 	public void updateCustomer(Customer c) throws CustomerDoesntExistExeption{
-		if(customerRepo.exists(c.getId())==false){
-			throw new CustomerDoesntExistExeption("the customer doesnt exist");
-		}
-		customerRepo.delete(c);
-		customerRepo.save(c);
+		
+		Customer tempCustomer = customerRepo.findCustomerById(c.getId());
+		tempCustomer.setPassword(c.getPassword());
+		tempCustomer.setCoupons(c.getCoupons());
+	
+		customerRepo.save(tempCustomer);
 	}
 
+	/**
+	 * method that get an id and return customer from DB.
+	 * @param id - customer id
+	 * @return - customer object
+	 */
 	@Override
 	public Customer getCustomer(int id) {
 		
@@ -57,14 +82,22 @@ public class CustomerDBDAO implements CustomerDAO
 		return customerRepo.findCustomerById(id);
 	}
 
+	/**
+	 * method to get all customers from DB.
+	 * @return Collection <Customer> of customer objects
+	 */
 	@Override
 	public ArrayList getAllCustomers() {
 		return (ArrayList) customerRepo.findAll();
 	}
 
+	/**
+	 * method to get all the coupons of the customer that logged in to the coupons system
+	 * @return - Collection <Coupon> of coupons objects
+	 */
 	@Override
 	public ArrayList getCoupons() {
-		
+		transactionsDbdao.writeToTableCustomer("getCoupons", true, EnumFacade.CustomerFacade, loggedInCustomer.toString());
 		return (ArrayList) loggedInCustomer.getCoupons();
 	}
 	
@@ -73,6 +106,12 @@ public class CustomerDBDAO implements CustomerDAO
 		return couponRepo.findCouponById(id);
 	}
 
+	/**
+	 * method to logged in to coupons system 
+	 * @param customer_name - user name
+	 * @param password - user password
+	 * @return
+	 */
 	@Override
 	public boolean login(String customer_name, String password) {
 
@@ -101,7 +140,7 @@ public class CustomerDBDAO implements CustomerDAO
 		this.loggedInCustomer.getCoupons().add(coupon);
 		customerRepo.save(loggedInCustomer);
 		couponRepo.save(coupon);
-		transactionsDbdao.writeToTableCustomer("purchaseCoupon", true, EnumFacade.CustomerFacade, loggedInCustomer);
+		transactionsDbdao.writeToTableCustomer("purchaseCoupon", true, EnumFacade.CustomerFacade, loggedInCustomer.toString());
 		
 		
 	}
@@ -111,15 +150,15 @@ public class CustomerDBDAO implements CustomerDAO
 		return couponRepo.findCouponByIdAndTime(coupon.getId(), today);
 	}
 
-	public List getAllPurchaseCouponsByType(Customer customer , CouponType type){
-		int cust_id = customer.getId();
+	public List getAllPurchaseCouponsByType( CouponType type){
 		
-		return customerRepo.findAllCouponFromCusttomerByType(cust_id, type);
+		transactionsDbdao.writeToTableCustomer("getAllPurchaseCouponsByType", true, EnumFacade.CustomerFacade, loggedInCustomer.toString());
+		return customerRepo.findAllCouponFromCusttomerByType(loggedInCustomer.getId(), type);
 	}
 	
-	public List getAllPurchaseCouponByPrice (Customer customer , double price){
+	public List getAllPurchaseCouponByPrice ( double price){
 		
-		int id  = customer.getId();
-		return customerRepo.findAllPurchaseCouponsByPrice(id, price);
+		transactionsDbdao.writeToTableCustomer("getAllPurchaseCouponByPrice", true, EnumFacade.CustomerFacade, loggedInCustomer.toString());
+		return customerRepo.findAllPurchaseCouponsByPrice(loggedInCustomer.getId(), price);
 	}
 }

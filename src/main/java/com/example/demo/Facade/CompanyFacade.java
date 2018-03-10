@@ -106,16 +106,12 @@ public class CompanyFacade implements CouponClientFacade{
 	
 	
 	
-	public Collection getAllCoupons(Company company)throws CompanyDoesntExistExeption{
+	public Collection getAllCoupons() throws CouponDoesntExistExeption{
 		
-		if(companyDbdao.getCompany(company.getId())==null){
-			throw new CompanyDoesntExistExeption ( "company doesnt exist");
+		if(companyDbdao.getCoupons()==null) {
+			throw new CouponDoesntExistExeption("thre is no coupons ");
 		}
-		
-		Collection<Coupon> tempListOfCoupons = new ArrayList<Coupon>();
-		tempListOfCoupons = company.getCoupons();
-		
-		return tempListOfCoupons;
+		 return companyDbdao.getCoupons();
 	}
 	
 	
@@ -132,8 +128,7 @@ public class CompanyFacade implements CouponClientFacade{
 		
 	}
 	
-	
-	
+
 	
 	public Collection getCouponsByPrice(int price) throws PriceCantBeMinusException, CouponDoesntExistExeption{
 		if(companyDbdao.getCouponsByPrice(price)==null){
@@ -162,8 +157,6 @@ public class CompanyFacade implements CouponClientFacade{
 		
 	}
 
-	
-	
 	
 }
 

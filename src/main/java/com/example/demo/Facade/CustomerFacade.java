@@ -60,23 +60,23 @@ public class CustomerFacade implements CouponClientFacade{
 	
 	
 	
-	public Collection getAllPurchaseCoupons(Customer customer){
-		transactionsDbdao.writeToTableCustomer("getAllPurchaseCoupons", true, EnumFacade.CustomerFacade, customer);
-		return customer.getCoupons();
+	public Collection getAllPurchaseCoupons(){
+		
+		return customerDbdao.getCoupons();
 	}
 	
 	
 	
-	public List getAllPurchaseCouponsByType(Customer customer , CouponType type){
-		transactionsDbdao.writeToTableCustomer("getAllPurchaseCouponsByType", true, EnumFacade.CustomerFacade, customer);
-		return customerDbdao.getAllPurchaseCouponsByType(customer, type);
+	public List getAllPurchaseCouponsByType( CouponType type){
+		
+		return customerDbdao.getAllPurchaseCouponsByType(type);
 	}
 	
 	
 	
-	public Collection getAllPurchaseCouponsByPrice(Customer customer ,double price){
-		transactionsDbdao.writeToTableCustomer("getAllPurchaseCouponsByPrice", true, EnumFacade.CustomerFacade, customer);
-		return customerDbdao.getAllPurchaseCouponByPrice(customer, price);
+	public Collection getAllPurchaseCouponsByPrice(double price){
+		
+		return customerDbdao.getAllPurchaseCouponByPrice( price);
 	}
 	
 	
