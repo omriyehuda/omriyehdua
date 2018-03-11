@@ -1,6 +1,7 @@
 package com.example.demo.Entities;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,10 +27,10 @@ import org.springframework.stereotype.Component;
 		private String title;
 
 		@Column
-		private Date startDate;
+		private LocalDate startDate;
 		
 		@Column
-		private Date endDate;
+		private LocalDate endDate;
 		
 		@Column
 		private int amount;
@@ -67,19 +68,19 @@ import org.springframework.stereotype.Component;
 			this.title = title;
 		}
 
-		public Date getStartDate() {
+		public LocalDate getStartDate() {
 			return startDate;
 		}
 
-		public void setStartDate(Date startDate) {
+		public void setStartDate(LocalDate startDate) {
 			this.startDate = startDate;
 		}
 
-		public Date getEndDate() {
+		public LocalDate getEndDate() {
 			return endDate;
 		}
 
-		public void setEndDate(Date endDate) {
+		public void setEndDate(LocalDate endDate) {
 			this.endDate = endDate;
 		}
 
@@ -123,7 +124,7 @@ import org.springframework.stereotype.Component;
 			this.image = image;
 		}
 
-		public Coupon( String title, Date startDate, Date endDate, int amount, CouponType type, String message,
+		public Coupon( String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type, String message,
 				double price, String image) {
 			super();
 			
@@ -148,9 +149,14 @@ import org.springframework.stereotype.Component;
 					+ image + "]";
 		}
 		
-		
-		
-		
-	
+		@Override
+		public boolean equals(Object obj) {
+			if (!(obj instanceof Coupon)) {
+				return false;
+			}
+
+			return id == ((Coupon) obj).getId()
+					;
+		}
 	}
 	

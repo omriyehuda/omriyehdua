@@ -1,6 +1,7 @@
 package com.example.demo.DBDAO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -167,10 +168,14 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	public List getCouponsByDate()	{
 		
-		Date today = Calendar.getInstance().getTime();
-		return companyRepo.getCouponsByDate(loggedInCompany.getId(), today);
+//		Date today = Calendar.getInstance().getTime();LocalDate.parse("2022-03-11"), 
+		return companyRepo.getCouponsByDate(loggedInCompany.getId(), LocalDate.now());
 		
 	}
 		
+	public Company getLastCompany(){
+		return loggedInCompany;
+		
+	}
 
 }

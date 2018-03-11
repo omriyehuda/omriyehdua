@@ -68,8 +68,6 @@ public class AdminFacade implements CouponClientFacade {
 		}
 
 		companyDbdao.createCompany(company);
-		System.out.println(company);
-		System.out.println(transactionsDbdao);
 		transactionsDbdao.writeToTableCompany("createCompany", true, EnumFacade.AdminFacade, company.toString());
 	}
 

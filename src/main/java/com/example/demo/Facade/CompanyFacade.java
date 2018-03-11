@@ -59,6 +59,9 @@ public class CompanyFacade implements CouponClientFacade{
 		}
 		else {
 			couponDbdao.createCoupon(c);
+			companyDbdao.getLastCompany().getCoupons().add(c);
+			companyDbdao.updateCompany(companyDbdao.getLastCompany());
+			
 		}
 	}
 	
@@ -108,7 +111,7 @@ public class CompanyFacade implements CouponClientFacade{
 	
 	public Collection getAllCoupons() throws CouponDoesntExistExeption{
 		
-		if(companyDbdao.getCoupons()==null) {
+		if(companyDbdao.getCoupons().isEmpty()) {
 			throw new CouponDoesntExistExeption("thre is no coupons ");
 		}
 		 return companyDbdao.getCoupons();
@@ -120,8 +123,8 @@ public class CompanyFacade implements CouponClientFacade{
 	public Collection getCouponsByType(CouponType type)throws CouponDoesntExistExeption{
 		
 		
-		if(companyDbdao.getCouponsByType(type)==null){
-			throw new CompanyDoesntExistExeption ( "Coupons doesnt exist");
+		if(companyDbdao.getCouponsByType(type).isEmpty()){
+			throw new CouponDoesntExistExeption ( "Coupons doesnt exist");
 		}
 		
 		return companyDbdao.getCouponsByType( type);
@@ -131,8 +134,8 @@ public class CompanyFacade implements CouponClientFacade{
 
 	
 	public Collection getCouponsByPrice(int price) throws PriceCantBeMinusException, CouponDoesntExistExeption{
-		if(companyDbdao.getCouponsByPrice(price)==null){
-			throw new CompanyDoesntExistExeption ( "Coupons doesnt exist check the price");
+		if(companyDbdao.getCouponsByPrice(price).isEmpty()){
+			throw new CouponDoesntExistExeption ( "Coupons doesnt exist check the price");
 		}
 		if (price<0){
 			throw new PriceCantBeMinusException("price need to be greater than 0");
@@ -148,8 +151,8 @@ public class CompanyFacade implements CouponClientFacade{
 	
 	public Collection getCouponsByDate()throws CouponDoesntAvailableExeption{
 		
-		if(companyDbdao.getCouponsByDate()==null){
-			throw new CompanyDoesntExistExeption ( "there is no coupons that match this date");
+		if(companyDbdao.getCouponsByDate().isEmpty()){
+			throw new CouponDoesntAvailableExeption ( "there is no coupons that match this date");
 	
 		}
 		
