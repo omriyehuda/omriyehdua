@@ -1,5 +1,6 @@
 package com.example.demo.Facade;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,17 +45,17 @@ public class CustomerFacade implements CouponClientFacade{
 	
 	
 	
-	public void purchaseCoupon(Coupon c){
+	public void purchaseCoupon(Coupon c)throws CouponDoesntExistExeption , CouponDoesntAvailableExeption{
 		
-		if (c.getAmount()<0){
+		if (customerDbdao.getCouponById(c.getId())==null || c.getAmount()<=0){ 
 			transactionsDbdao.writeToTable("purchaseCoupon", false, EnumFacade.CustomerFacade);
-			throw new CouponDoesntExistExeption("the coupon out of stok");
+			throw new CouponDoesntExistExeption("the coupon out of stok or doesnt exist");
 		}
 		if (customerDbdao.getCouponByIdAndTimeAvailable(c)==null){
 			transactionsDbdao.writeToTable("purchaseCoupon", false, EnumFacade.CustomerFacade);
 			throw new CouponDoesntAvailableExeption("sorry the coupon end date ended"); 
 		}
-
+		
 		customerDbdao.buyCoupon( c);
 	}
 	

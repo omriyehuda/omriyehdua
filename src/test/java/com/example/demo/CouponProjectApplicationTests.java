@@ -103,14 +103,14 @@ public class CouponProjectApplicationTests {
 		dbCompany = companyRepo.findCompanyByCompanyName(company1.getCompanyName());
 		Assert.assertEquals(dbCompany, company1);
 	}
-	
+
 	@DirtiesContext
 	@Test(expected = NameAllreadyExistException.class)
-	public void createCompanyExeption(){
+	public void createCompanyExeption() {
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
-		
+
 		adminFacade.createCompany(company1);
 	}
 
@@ -353,58 +353,56 @@ public class CouponProjectApplicationTests {
 		Assert.assertEquals(testCoupon, newCoupon);
 
 	}
-	
+
 	@DirtiesContext
 	@Test(expected = CouponAllReadyExistException.class)
 	public void createCouponExeption1() {
-		
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(newCoupon);
-		
+
 		companyFacade.createCoupon(newCoupon);
-		
-		
-		
+
 	}
-	
+
 	@DirtiesContext
 	@Test(expected = CouponTitleAllreadyExistException.class)
 	public void createCouponExeption2() {
-		
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(newCoupon);
-		
+
 		Coupon newCoupon2 = new Coupon("board", LocalDate.parse("2018-03-09"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Sport, "", 500, "no massage");
-		
+
 		companyFacade.createCoupon(newCoupon2);
-		
+
 	}
-	
+
 	@DirtiesContext
 	@Test
-	public void removeCoupon(){
-		
+	public void removeCoupon() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
@@ -413,37 +411,37 @@ public class CouponProjectApplicationTests {
 		testCoupon = couponRepo.findCouponByTitle(newCoupon.getTitle());
 
 		Assert.assertEquals(testCoupon, newCoupon);
-		
+
 		companyFacade.removeCoupon(newCoupon);
-		
+
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = CouponDoesntExistExeption.class)
-	public void removeCouponException(){
-		
+	@Test(expected = CouponDoesntExistExeption.class)
+	public void removeCouponException() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		
+
 		companyFacade.removeCoupon(newCoupon);
-		
+
 	}
-	
+
 	@DirtiesContext
 	@Test
-	public void updateCoupon(){
+	public void updateCoupon() {
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
@@ -452,88 +450,88 @@ public class CouponProjectApplicationTests {
 		testCoupon = couponRepo.findCouponByTitle(newCoupon.getTitle());
 
 		Assert.assertEquals(testCoupon, newCoupon);
-		
+
 		newCoupon.setImage("buifs");
 		newCoupon.setStartDate(LocalDate.parse("2228-03-10"));
 		newCoupon.setTitle("trapes");
 		newCoupon.setPrice(400);
-		
+
 		companyFacade.updateCoupon(newCoupon);
-		
+
 		Coupon testCoupon2 = couponRepo.findCouponById(newCoupon.getId());
 		Assert.assertEquals(testCoupon2, newCoupon);
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = CouponDoesntExistExeption.class)
-	public void updateCouponException(){
-		
+	@Test(expected = CouponDoesntExistExeption.class)
+	public void updateCouponException() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		
+
 		newCoupon.setImage("buifs");
 		newCoupon.setStartDate(LocalDate.parse("2228-03-10"));
 		newCoupon.setTitle("trapes");
 		newCoupon.setPrice(400);
-		
+
 		companyFacade.updateCoupon(newCoupon);
-		
-		
+
 	}
+
 	@DirtiesContext
-	@Test 
-	public void getCompany2 (){
+	@Test
+	public void getCompany2() {
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Company company2 = new Company("f-one", "1234", "f-one@gmail.com");
 		adminFacade.createCompany(company2);
-		
+
 		Assert.assertEquals(companyFacade.getCompany(company2.getId()), company2);
 
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = CompanyDoesntExistExeption.class)
-	public void getCompanyException(){
+	@Test(expected = CompanyDoesntExistExeption.class)
+	public void getCompanyException() {
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
+
 		Company company2 = new Company("f-one", "1234", "f-one@gmail.com");
 
 		companyFacade.getCompany(company2.getId());
 
 	}
-	
+
 	@DirtiesContext
 	@Test
-	public void getAllCoupons(){
-		
+	public void getAllCoupons() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
-		Collection <Coupon> tempListOfCoupons =new ArrayList();
+
+		Collection<Coupon> tempListOfCoupons = new ArrayList();
 		Coupon c;
 
-		for(int i = 0 ; i<5 ; i++){
-		
-			c= new Coupon ("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		for (int i = 0; i < 5; i++) {
+
+			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 					CouponType.Sport, "freeStyle", 1000, "no massage");
 			tempListOfCoupons.add(c);
 			companyFacade.createCoupon(c);
@@ -541,274 +539,462 @@ public class CouponProjectApplicationTests {
 		}
 		Assert.assertEquals(tempListOfCoupons, companyFacade.getAllCoupons());
 
-	
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = CouponDoesntExistExeption.class)
-	public void getAllCouponsException(){
-		
+	@Test(expected = CouponDoesntExistExeption.class)
+	public void getAllCouponsException() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		
-		 companyFacade.getAllCoupons();
+
+		companyFacade.getAllCoupons();
 	}
-	
+
 	@DirtiesContext
 	@Test
-	public void getCouponsByType(){
-		
+	public void getCouponsByType() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
-		
-		Coupon c= new Coupon ("boost" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+
+		Coupon c = new Coupon("boost", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c1= new Coupon ("boost1" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c1 = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Electronic, "freeStyle", 1000, "no massage");
-		Coupon c2= new Coupon ("boost2" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c2 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Food, "freeStyle", 1000, "no massage");
-		Coupon c3= new Coupon ("boost3" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c3 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
-		Coupon c4= new Coupon ("boost4" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c4 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(c);
 		companyFacade.createCoupon(c1);
 		companyFacade.createCoupon(c2);
 		companyFacade.createCoupon(c3);
 		companyFacade.createCoupon(c4);
-		
-		Collection <Coupon> tempListOfCoupon = new ArrayList();
+
+		Collection<Coupon> tempListOfCoupon = new ArrayList();
 		tempListOfCoupon = companyFacade.getCouponsByType(CouponType.Fun);
-	
+
 		Assert.assertEquals(tempListOfCoupon, companyFacade.getCouponsByType(CouponType.Fun));
 
-	
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = CouponDoesntExistExeption.class)
-	public void getCouponsByTypeException(){
-		
+	@Test(expected = CouponDoesntExistExeption.class)
+	public void getCouponsByTypeException() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
-		
-		Coupon c= new Coupon ("boost" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+
+		Coupon c = new Coupon("boost", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c1= new Coupon ("boost1" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c1 = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Electronic, "freeStyle", 1000, "no massage");
-		Coupon c2= new Coupon ("boost2" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c2 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Food, "freeStyle", 1000, "no massage");
-		Coupon c3= new Coupon ("boost3" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c3 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
-		Coupon c4= new Coupon ("boost4" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c4 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(c);
 		companyFacade.createCoupon(c1);
 		companyFacade.createCoupon(c2);
 		companyFacade.createCoupon(c3);
 		companyFacade.createCoupon(c4);
-		
-		
+
 		System.out.println(companyFacade.getCouponsByType(CouponType.Movies));
-	
 
 	}
-	
+
 	@DirtiesContext
-	@Test 
-	public void getCouponsByprice(){
-		
+	@Test
+	public void getCouponsByprice() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
+
 		Coupon c;
-		Collection <Coupon> ListOfCouponsByPrice = new ArrayList();
-		for(int i= 0 ; i<3 ; i++){
-			
-			c= new Coupon ("boost" + i , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000*i, "no massage");
-			
+		Collection<Coupon> ListOfCouponsByPrice = new ArrayList();
+		for (int i = 0; i < 3; i++) {
+
+			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+					CouponType.Sport, "freeStyle", 1000 * i, "no massage");
+
 			companyFacade.createCoupon(c);
 			ListOfCouponsByPrice.add(c);
 		}
-		
-		
+
 		Assert.assertEquals(ListOfCouponsByPrice, companyFacade.getCouponsByPrice(3001));
 
-		
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = PriceCantBeMinusException.class)
-	public void getCouponsBypriceException1(){
-		
+	@Test(expected = PriceCantBeMinusException.class)
+	public void getCouponsBypriceException1() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
+
 		Coupon c;
-		Collection <Coupon> ListOfCouponsByPrice = new ArrayList();
-		for(int i= 0 ; i<3 ; i++){
-			
-			c= new Coupon ("boost" + i , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000*i, "no massage");
-			
+
+		for (int i = 0; i < 3; i++) {
+
+			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+					CouponType.Sport, "freeStyle", 1000 * i, "no massage");
+
 			companyFacade.createCoupon(c);
-			ListOfCouponsByPrice.add(c);
-		}
-		
-		
-		companyFacade.getCouponsByPrice(-1);
 
-		
+		}
+
+		companyFacade.getCouponsByPrice(-10);
+
 	}
-	
+
 	@DirtiesContext
-	@Test (expected = CouponDoesntExistExeption.class)
-	public void getCouponsBypriceException2(){
-		
+	@Test(expected = CouponDoesntExistExeption.class)
+	public void getCouponsBypriceException2() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
+
 		Coupon c;
-		
-		for(int i= 3 ; i<6 ; i++){
-			
-			c= new Coupon ("boost" + i , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000*i, "no massage");
-			
-			companyFacade.createCoupon(c);	
-		}		
+
+		for (int i = 3; i < 6; i++) {
+
+			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+					CouponType.Sport, "freeStyle", 1000 * i, "no massage");
+
+			companyFacade.createCoupon(c);
+		}
 		companyFacade.getCouponsByPrice(100);
 
 	}
+
+	@DirtiesContext
+	@Test
+	public void getCouponsByDate() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Collection<Coupon> couponListByNow = new ArrayList();
+
+		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c1 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2021-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c2 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2022-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c3 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2023-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c4 = new Coupon("boost5", LocalDate.parse("2018-03-11"), LocalDate.parse("2024-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+
+		companyFacade.createCoupon(c);
+		companyFacade.createCoupon(c1);
+		companyFacade.createCoupon(c2);
+		companyFacade.createCoupon(c3);
+		companyFacade.createCoupon(c4);
+
+		couponListByNow.add(c);
+		couponListByNow.add(c1);
+		couponListByNow.add(c2);
+		couponListByNow.add(c3);
+		couponListByNow.add(c4);
+
+		Assert.assertEquals(couponListByNow, companyFacade.getCouponsByDate());
+
+	}
+
+	@DirtiesContext
+	@Test(expected = CouponDoesntAvailableExeption.class)
+	public void getCouponsByDateException() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2010-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c1 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2011-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c2 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2012-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c3 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2013-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+		Coupon c4 = new Coupon("boost5", LocalDate.parse("2018-03-11"), LocalDate.parse("2014-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+
+		companyFacade.createCoupon(c);
+		companyFacade.createCoupon(c1);
+		companyFacade.createCoupon(c2);
+		companyFacade.createCoupon(c3);
+		companyFacade.createCoupon(c4);
+
+		companyFacade.getCouponsByDate();
+
+	}
+
+	// ---------------------------------------------- Customer Facade tests
+	// -------------------------------------
+
+	@DirtiesContext
+	@Test
+	public void loginCustomerFacade() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+	}
+
+	@DirtiesContext
+	@Test
+	public void purchesCoupon() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+
+		companyFacade.createCoupon(c);
+
+		customerFacade.purchaseCoupon(c);
+		
+		Assert.assertTrue(customerFacade.getAllPurchaseCoupons().contains(c));		
+}
+
+	@DirtiesContext
+	@Test(expected = CouponDoesntAvailableExeption.class)
+	public void purchesCouponException1() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2010-03-11"), 10,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+
+		companyFacade.createCoupon(c);
+		customerFacade.purchaseCoupon(c);
+
+	}
+
+	
+	
+	@DirtiesContext
+	@Test (expected = CouponDoesntExistExeption.class)
+	public void purchesCouponException2() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), -1,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+
+		companyFacade.createCoupon(c);
+		customerFacade.purchaseCoupon(c);
+	}
+	
+	@DirtiesContext
+	@Test (expected = CouponDoesntExistExeption.class)
+	public void purchesCouponException3() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 100,
+				CouponType.Sport, "freeStyle", 1000, "no massage");
+
+		
+		customerFacade.purchaseCoupon(c);
+	}
+	
+	@DirtiesContext
+	@Test
+	public void getAllPurchesCoupon() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Collection <Coupon> listOfTempCoupons = new ArrayList();
+		Coupon c;
+		for(int i = 0 ; i < 5 ; i ++){
+			
+			c = new Coupon("boost"+i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+					CouponType.Sport, "freeStyle", 1000, "no massage");
+			
+			companyFacade.createCoupon(c);
+			listOfTempCoupons.add(c);
+			customerFacade.purchaseCoupon(c);
+		}
+		
+		Assert.assertEquals(listOfTempCoupons, customerFacade.getAllPurchaseCoupons());
+		
+	}
+	
+	@DirtiesContext
+	@Test
+	public void getAllPurchesCouponByType() {
+
+		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
+		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
+		adminFacade.createCompany(company1);
+
+		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
+		companyFacade.login("rrd", "1234", ClientType.Company);
+
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Collection <Coupon> listOfTempCoupons = new ArrayList();
+		Coupon c;
+		for(int i = 0 ; i < 5 ; i ++){
+			
+			c = new Coupon("boost"+i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+					CouponType.Sport, "freeStyle", 1000, "no massage");
+			
+			companyFacade.createCoupon(c);
+			listOfTempCoupons.add(c);
+			customerFacade.purchaseCoupon(c);
+		}
+		
+		Assert.assertEquals(listOfTempCoupons, customerFacade.getAllPurchaseCouponsByType(CouponType.Sport));
+		
+	}
 	
 	
 	@DirtiesContext
 	@Test
-	public void getCouponsByDate(){
-		
+	public void getAllPurchesCouponByPrice() {
+
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
+
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
-		
-		Collection <Coupon> couponListByNow = new ArrayList();
-		
-			Coupon c= new Coupon ("boost1" , LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c1= new Coupon ("boost2"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2021-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c2= new Coupon ("boost3"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2022-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c3= new Coupon ("boost4"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2023-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c4= new Coupon ("boost5"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2024-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			
-			companyFacade.createCoupon(c);
-			companyFacade.createCoupon(c1);
-			companyFacade.createCoupon(c2);
-			companyFacade.createCoupon(c3);
-			companyFacade.createCoupon(c4);
-		
-			couponListByNow.add(c);
-			couponListByNow.add(c1);
-			couponListByNow.add(c2);
-			couponListByNow.add(c3);
-			couponListByNow.add(c4);
-			
-			
-			Assert.assertEquals(couponListByNow, companyFacade.getCouponsByDate());
-	
-	
-	
-	}		
-		
-	
-	
-	@DirtiesContext
-	@Test(expected = CouponDoesntAvailableExeption.class)
-	public void getCouponsByDateException(){
-		
-		this.adminFacade.login("omri", "0542515", ClientType.Admin);
-		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
-		adminFacade.createCompany(company1);
 
-		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
-		companyFacade.login("rrd", "1234", ClientType.Company);
-		
-		
-			Coupon c= new Coupon ("boost1" , LocalDate.parse("2018-03-11"), LocalDate.parse("2010-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c1= new Coupon ("boost2"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2011-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c2= new Coupon ("boost3"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2012-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c3= new Coupon ("boost4"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2013-03-11"), 10,
-					CouponType.Sport, "freeStyle", 1000, "no massage");
-			Coupon c4= new Coupon ("boost5"  , LocalDate.parse("2018-03-11"), LocalDate.parse("2014-03-11"), 10,
+		Customer customer = new Customer("omri", "1234");
+		adminFacade.createCustomer(customer);
+
+		assertNotNull(customerFacade.login("omri", "1234", ClientType.Customer));
+
+		customerFacade.login("omri", "1234", ClientType.Customer);
+
+		Collection <Coupon> listOfTempCoupons = new ArrayList();
+		Coupon c;
+		for(int i = 0 ; i < 5 ; i ++){
+			
+			c = new Coupon("boost"+i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
 					CouponType.Sport, "freeStyle", 1000, "no massage");
 			
 			companyFacade.createCoupon(c);
-			companyFacade.createCoupon(c1);
-			companyFacade.createCoupon(c2);
-			companyFacade.createCoupon(c3);
-			companyFacade.createCoupon(c4);
+			listOfTempCoupons.add(c);
+			customerFacade.purchaseCoupon(c);
+		}
 		
+		Assert.assertEquals(listOfTempCoupons, customerFacade.getAllPurchaseCouponsByPrice(1000));
 		
-			
-			companyFacade.getCouponsByDate();
-	
-	
-	
-	}		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	}
 	
 	
@@ -821,4 +1007,9 @@ public class CouponProjectApplicationTests {
 	
 	
 	
-
+	
+	
+	
+	
+	
+}

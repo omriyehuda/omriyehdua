@@ -1,9 +1,9 @@
 package com.example.demo.Entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,33 +12,28 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
+
 @Component
 @Entity(name = "CUSTOMERS")
 public class Customer {
-	
-	
-	@Id  @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private int id;
-	
+
 	@Column
 	private String customerName;
-	
+
 	@Column
 	private String password;
-	
-	@ManyToMany(fetch=FetchType.EAGER, cascade = {CascadeType.DETACH ,  CascadeType.REFRESH})
-	@JoinTable(name="Customer_Coupon",
-				joinColumns=@JoinColumn(name="Customer_id"),
-				inverseJoinColumns = @JoinColumn(name = "Coupon_id"))
 
-	private Collection <Coupon> coupons ;
-	
-	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.REFRESH })
+	@JoinTable(name = "Customer_Coupon", joinColumns = @JoinColumn(name = "Customer_id"), inverseJoinColumns = @JoinColumn(name = "Coupon_id"))
+
+	private Collection<Coupon> coupons;
+
 	public Customer() {
 		super();
 	}
@@ -47,12 +42,11 @@ public class Customer {
 		return id;
 	}
 
-
-	public Collection getCoupons() {
+	public Collection<Coupon> getCoupons() {
 		return coupons;
 	}
 
-	public void setCoupons(Collection coupons) {
+	public void setCoupons(Collection<Coupon> coupons) {
 		this.coupons = coupons;
 	}
 
@@ -72,9 +66,9 @@ public class Customer {
 		this.password = password;
 	}
 
-	public Customer( String customer, String password) {
+	public Customer(String customer, String password) {
 		super();
-		
+
 		this.customerName = customer;
 		this.password = password;
 	}
@@ -84,13 +78,13 @@ public class Customer {
 		return "Customer [id=" + id + ", customer=" + customerName + ", password=" + password + "]";
 	}
 
-//	public Collection<Transactions> getTransactions() {
-//		return transactions;
-//	}
-//
-//	public void setTransactions(Collection<Transactions> transactions) {
-//		this.transactions = transactions;
-//	}
+	// public Collection<Transactions> getTransactions() {
+	// return transactions;
+	// }
+	//
+	// public void setTransactions(Collection<Transactions> transactions) {
+	// this.transactions = transactions;
+	// }
 
 	@Override
 	public boolean equals(Object obj) {
@@ -98,11 +92,7 @@ public class Customer {
 			return false;
 		}
 
-		return id == ((Customer) obj).getId()
-				;
+		return id == ((Customer) obj).getId();
 	}
 
-	
-
-	
 }

@@ -134,11 +134,11 @@ public class CompanyFacade implements CouponClientFacade{
 
 	
 	public Collection getCouponsByPrice(int price) throws PriceCantBeMinusException, CouponDoesntExistExeption{
+		if (price < 0 ){
+			throw new PriceCantBeMinusException("price need to be greater than 0");
+		}
 		if(companyDbdao.getCouponsByPrice(price).isEmpty()){
 			throw new CouponDoesntExistExeption ( "Coupons doesnt exist check the price");
-		}
-		if (price<0){
-			throw new PriceCantBeMinusException("price need to be greater than 0");
 		}
 		return companyDbdao.getCouponsByPrice( price);
 		
