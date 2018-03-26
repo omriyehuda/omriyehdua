@@ -16,6 +16,11 @@ import com.example.demo.Entities.EnumFacade;
 import com.example.demo.Exception.CouponAllReadyExistException;
 import com.example.demo.Exception.CouponDoesntAvailableExeption;
 import com.example.demo.Exception.CouponDoesntExistExeption;
+/**
+ * CustomerFacade implements CouponClientFacade
+ * @author omri
+ *
+ */
 @Component
 public class CustomerFacade implements CouponClientFacade{
 
@@ -25,7 +30,9 @@ public class CustomerFacade implements CouponClientFacade{
 	@Autowired
 	private TransactionsDBDAO transactionsDbdao;
 	
-	
+/**
+ * login method , login to the coupon system by customer client	
+ */
 	@Override
 	public CouponClientFacade login(String name, String password, ClientType clientType) {
 
@@ -44,7 +51,12 @@ public class CustomerFacade implements CouponClientFacade{
 	}
 	
 	
-	
+/**
+ * method that admit coupon object to customer entity	
+ * @param c
+ * @throws CouponDoesntExistExeption
+ * @throws CouponDoesntAvailableExeption
+ */
 	public void purchaseCoupon(Coupon c)throws CouponDoesntExistExeption , CouponDoesntAvailableExeption{
 		
 		if (customerDbdao.getCouponById(c.getId())==null || c.getAmount()<=0){ 
@@ -60,20 +72,31 @@ public class CustomerFacade implements CouponClientFacade{
 	}
 	
 	
-	
+/**
+ * get all purchase coupons	
+ * @return Collections of coupons
+ */
 	public Collection getAllPurchaseCoupons(){
 		
 		return customerDbdao.getCoupons();
 	}
 	
-	
+/**
+ * 	get all purchase coupons by type
+ * @param type
+ * @return Collections of coupons
+ */
 	
 	public List getAllPurchaseCouponsByType( CouponType type){
 		
 		return customerDbdao.getAllPurchaseCouponsByType(type);
 	}
 	
-	
+/**
+ * get all purchase coupons by price
+ * @param price
+ * @return  Collections of coupons
+ */
 	
 	public Collection getAllPurchaseCouponsByPrice(double price){
 		

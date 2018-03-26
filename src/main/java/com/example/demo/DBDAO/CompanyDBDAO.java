@@ -168,11 +168,14 @@ public class CompanyDBDAO implements CompanyDAO{
 
 	public List getCouponsByDate()	{
 		
-//		Date today = Calendar.getInstance().getTime();LocalDate.parse("2022-03-11"), 
+
 		return companyRepo.getCouponsByDate(loggedInCompany.getId(), LocalDate.now());
 		
 	}
-		
+	/**
+	 * helpful method to get the last logged in company object
+	 * @return - company object
+	 */
 	public Company getLastCompany(){
 		return loggedInCompany;
 		

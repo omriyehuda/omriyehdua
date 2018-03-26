@@ -22,6 +22,11 @@ import com.example.demo.Exception.CouponTitleAllreadyExistException;
 import com.example.demo.Exception.PasswordNotCorrectException;
 import com.example.demo.Exception.PriceCantBeMinusException;
 import com.example.demo.Exception.UserNameNotMatchException;
+/**
+ * CompanyFacade implements CouponClientFacade
+ * @author omri
+ *
+ */
 @Component
 public class CompanyFacade implements CouponClientFacade{
 
@@ -33,7 +38,10 @@ public class CompanyFacade implements CouponClientFacade{
 	private CouponDBDAO couponDbdao;
 	@Autowired
 	private TransactionsDBDAO transactionsDbdao;
-	
+
+/**
+ * login method , login to the coupon system by company client
+ */
 	@Override
 	public CouponClientFacade login(String name, String password, ClientType clientType) {
 			
@@ -48,7 +56,12 @@ public class CompanyFacade implements CouponClientFacade{
 	}
 	
 	
-	
+/**
+ * create coupon	
+ * @param c
+ * @throws CouponAllReadyExistException
+ * @throws CouponTitleAllreadyExistException
+ */
 	
 	public void createCoupon(Coupon c) throws CouponAllReadyExistException ,CouponTitleAllreadyExistException{
 		if (couponDbdao.getCoupon(c.getId())!=null){
@@ -64,12 +77,11 @@ public class CompanyFacade implements CouponClientFacade{
 			
 		}
 	}
-	
-	
-	
-	
-	
-	
+/**
+ * remove coupon from BD 	
+ * @param c
+ * @throws CouponDoesntExistExeption
+ */
 	public void removeCoupon(Coupon c) throws CouponDoesntExistExeption{
 		
 		if(couponDbdao.getCoupon(c.getId())!=null){
@@ -78,12 +90,11 @@ public class CompanyFacade implements CouponClientFacade{
 		else throw new CouponDoesntExistExeption("the coupon doesnt exist");
 		
 	}
-	
-	
-	
-	
-	
-	
+/**
+ * update coupon object	
+ * @param c
+ * @throws CouponDoesntExistExeption
+ */
 	public void updateCoupon(Coupon c)throws CouponDoesntExistExeption{
 		if(couponDbdao.getCoupon(c.getId())==null){
 			
@@ -93,10 +104,13 @@ public class CompanyFacade implements CouponClientFacade{
 		couponDbdao.updateCoupon(c);
 	}
 	
-	
-	
-	
-	
+/**
+ * get company from DB by company id
+ * @param id
+ * @return
+ * @throws CompanyDoesntExistExeption
+ */
+		
 	public Company getCompany(int id)throws CompanyDoesntExistExeption{
 		
 		if(companyDbdao.getCompany(id)==null){
@@ -106,9 +120,12 @@ public class CompanyFacade implements CouponClientFacade{
 		return  companyDbdao.getCompany(id);
 	}
 	
-	
-	
-	
+/**
+ * 	get all companies from DB 
+ * @return List of companies
+ * @throws CouponDoesntExistExeption
+ */
+
 	public Collection getAllCoupons() throws CouponDoesntExistExeption{
 		
 		if(companyDbdao.getCoupons().isEmpty()) {
@@ -116,10 +133,12 @@ public class CompanyFacade implements CouponClientFacade{
 		}
 		 return companyDbdao.getCoupons();
 	}
-	
-	
-	
-	
+/**
+ * get coupons from DB by type 
+ * @param type
+ * @return Collection coupon object
+ * @throws CouponDoesntExistExeption
+ */
 	public Collection getCouponsByType(CouponType type)throws CouponDoesntExistExeption{
 		
 		
@@ -131,7 +150,13 @@ public class CompanyFacade implements CouponClientFacade{
 		
 	}
 	
-
+/**
+ * get coupons from DB by price 
+ * @param price
+ * @return Collection coupons objects
+ * @throws PriceCantBeMinusException
+ * @throws CouponDoesntExistExeption
+ */
 	
 	public Collection getCouponsByPrice(int price) throws PriceCantBeMinusException, CouponDoesntExistExeption{
 		if (price < 0 ){
@@ -144,11 +169,11 @@ public class CompanyFacade implements CouponClientFacade{
 		
 	}
 	
-	
-	
-	
-	
-	
+/**
+ * get coupons from DB by date .
+ * @return Collection coupons objects
+ * @throws CouponDoesntAvailableExeption
+ */
 	public Collection getCouponsByDate()throws CouponDoesntAvailableExeption{
 		
 		if(companyDbdao.getCouponsByDate().isEmpty()){

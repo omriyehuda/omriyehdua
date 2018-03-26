@@ -1,7 +1,9 @@
 package com.example.demo.DBDAO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +11,6 @@ import com.example.demo.DAO.CouponDAO;
 import com.example.demo.Entities.Coupon;
 import com.example.demo.Entities.CouponRepo;
 import com.example.demo.Entities.CouponType;
-import com.example.demo.Exception.CouponDoesntExistExeption;
 /**
  *  CouponDBDAO implements CouponDAO 
  * @author omri
@@ -91,4 +92,13 @@ public class CouponDBDAO implements  CouponDAO{
 	public Coupon getCouponByTitle(String Title){
 		return couponRepo.findCouponByTitle(Title);
 	}
+	/**
+	 * method to get for the daily thread
+
+	 */
+	public void deleteExpiredCoupons (Date endDate)
+	{
+		couponRepo.deleteCouponByEndDate(endDate);
+	}
+
 }

@@ -70,10 +70,7 @@ public class CouponProjectApplicationTests {
 	TransactionsDBDAO transactionsDbdao;
 
 	SimpleDateFormat newDate = new SimpleDateFormat("dd/MM/yyyy");
-	// c.setEndDate(newDate.parse("9/02/20019"));
-	// Date today = Calendar.getInstance().getTime();
-
-	// adminFacade tests
+	
 	@DirtiesContext
 	@Test(expected = PasswordNotCorrectException.class)
 	public void loginPasswordNotCorrectException() {

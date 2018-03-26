@@ -10,7 +10,11 @@ import javax.persistence.Id;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.Facade.CouponClientFacade;
-
+/**
+ * Transactions entity 
+ * @author omri
+ *
+ */
 @Component
 @Entity(name="TRANSACTIONS")
 public class Transactions {
@@ -32,7 +36,14 @@ public class Transactions {
 
 	@Column
 	private  String details;
-
+/**
+ * constructor 
+ * @param id
+ * @param time
+ * @param methodName
+ * @param success
+ * @param facade
+ */
 
 	public Transactions(int id, Date time, String methodName, boolean success, EnumFacade facade) {
 		super();
@@ -42,11 +53,15 @@ public class Transactions {
 		this.success = success;
 		this.facade = facade;
 	}
-
+/**
+ * an empty costructor
+ */
 	public Transactions() {
 		super();
 	}
-
+/**
+ *  toString method to print all fields of the entity
+ */
 	@Override
 	public String toString() {
 		return "Actions [id=" + id + ", time=" + time + ", methodName=" + methodName + ", success=" + success + "]";

@@ -15,21 +15,30 @@ import com.example.demo.Entities.CustomerRepo;
 import com.example.demo.Entities.EnumFacade;
 import com.example.demo.Entities.Transactions;
 import com.example.demo.Entities.TransactionsRepo;
-
+/**
+ * TransactionsDBDAO 
+ * @author omri
+ * all the method to control transactions entity. 
+ */
 @Component
 public class TransactionsDBDAO {
 
 	@Autowired
-	TransactionsRepo transactionsRepo;
+	private TransactionsRepo transactionsRepo;
 	@Autowired
-	CompanyRepo companyRepo;
+	private CompanyRepo companyRepo;
 	@Autowired
-	CustomerRepo customerRepo;
-
+	private CustomerRepo customerRepo;
+/**
+ * an empty constactor.
+ */
 	public TransactionsDBDAO() {
 
 	}
-
+	/**
+	 * method that write to transaction table and Attached to facades methods.
+	 */
+	
 	public void writeToTable(String methodName, Boolean success, EnumFacade facade) {
 
 		Date actionTime = Calendar.getInstance().getTime();
@@ -43,7 +52,9 @@ public class TransactionsDBDAO {
 		transactionsRepo.save(action);
 
 	}
-
+	/**
+	 * method that write to transaction table and Attached to facades methods.
+	 */
 	public void writeToTableCustomer(String methodName, Boolean success, EnumFacade facade, String details) {
 
 		Date actionTime = Calendar.getInstance().getTime();
@@ -58,7 +69,9 @@ public class TransactionsDBDAO {
 		transactionsRepo.save(action);
 
 	}
-
+	/**
+	 * method that write to transaction table and Attached to facades methods.
+	 */
 	public void writeToTableCompany(String methodName, Boolean success, EnumFacade facade, String details) {
 
 		Date actionTime = Calendar.getInstance().getTime();

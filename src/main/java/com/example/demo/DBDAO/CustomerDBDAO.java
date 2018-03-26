@@ -39,8 +39,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	/**
 	 * method to create a customer
 	 * 
-	 * @param c
-	 *            - created customer
+	 * @param c- created customer
 	 */
 	@Override
 	public void createCustomer(Customer c) {
@@ -51,8 +50,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	/**
 	 * method to remove customer
 	 * 
-	 * @param c
-	 *            - removed customer
+	 * @param c- removed customer
 	 */
 
 	@Override
@@ -64,8 +62,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	/**
 	 * method to update customer password and list of coupons
 	 * 
-	 * @param c
-	 *            - updated customer
+	 * @param c - updated customer
 	 */
 	@Override
 	public void updateCustomer(Customer c) throws CustomerDoesntExistExeption {
@@ -80,8 +77,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	/**
 	 * method that get an id and return customer from DB.
 	 * 
-	 * @param id
-	 *            - customer id
+	 * @param id- customer id
 	 * @return - customer object
 	 */
 	@Override
@@ -121,11 +117,9 @@ public class CustomerDBDAO implements CustomerDAO {
 	/**
 	 * method to logged in to coupons system
 	 * 
-	 * @param customer_name
-	 *            - user name
-	 * @param password
-	 *            - user password
-	 * @return
+	 * @param customer_name - user name
+	 * @param password - user password
+	 * @return true/false
 	 */
 	@Override
 	public boolean login(String customer_name, String password) {
@@ -138,11 +132,17 @@ public class CustomerDBDAO implements CustomerDAO {
 
 		return false;
 	}
-
+	/**
+	 * get customer object from DB by title/name
+	 * @return - customer object
+	 */
 	public Customer getCustomerByName(String name) {
 		return customerRepo.findCustomerByCustomerName(name);
 	}
-
+	/**
+	 * method that admit coupon object to customer entity
+	 * @return - Coupon object
+	 */
 	public void buyCoupon(Coupon coupon) {
 
 		if (customerRepo.CustomerContainCoupon(loggedInCustomer.getId(), coupon.getId()) != null) {
@@ -158,24 +158,36 @@ public class CustomerDBDAO implements CustomerDAO {
 				loggedInCustomer.toString());
 
 	}
-
+	/**
+	 * helpful method to get the last logged in customer object
+	 * @return - customer object
+	 */
 	public Customer getLoggedInLastCustomer() {
 
 		return loggedInCustomer;
 	}
-
+	/**
+	 * method - to get an available coupon 
+	 * @return - Coupon object
+	 */
 	public Coupon getCouponByIdAndTimeAvailable(Coupon coupon) {
 		Date today = Calendar.getInstance().getTime();
 		return couponRepo.findCouponByIdAndTime(coupon.getId(), LocalDate.now());
 	}
-
+	/**
+	 * get all purchase coupon
+	 * @return - List <Coupon> coupons
+	 */
 	public List getAllPurchaseCouponsByType(CouponType type) {
 
 		transactionsDbdao.writeToTableCustomer("getAllPurchaseCouponsByType", true, EnumFacade.CustomerFacade,
 				loggedInCustomer.toString());
 		return customerRepo.findAllCouponFromCusttomerByType(loggedInCustomer.getId(), type);
 	}
-
+	/**
+	 * get all purchase coupon by price 
+	 * @return - List <Coupon> couponsByPrice
+	 */
 	public List getAllPurchaseCouponByPrice(double price) {
 
 		transactionsDbdao.writeToTableCustomer("getAllPurchaseCouponByPrice", true, EnumFacade.CustomerFacade,
