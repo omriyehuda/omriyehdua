@@ -83,7 +83,7 @@ public class CompanyFacade implements CouponClientFacade{
  * @throws CouponDoesntExistExeption
  */
 	public void removeCoupon(Coupon c) throws CouponDoesntExistExeption{
-		
+		System.out.println(c.getId());
 		if(couponDbdao.getCoupon(c.getId())!=null){
 			couponDbdao.removeCoupon(c);
 		}
@@ -184,7 +184,11 @@ public class CompanyFacade implements CouponClientFacade{
 		return companyDbdao.getCouponsByDate();
 		
 	}
-
+	
+	public Coupon getCoupon (int id){
+		return companyDbdao.getCoupon(id);
+	
+	}
 	
 }
 

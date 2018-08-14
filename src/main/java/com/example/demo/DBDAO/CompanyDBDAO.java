@@ -15,6 +15,7 @@ import com.example.demo.DAO.CompanyDAO;
 import com.example.demo.Entities.Company;
 import com.example.demo.Entities.CompanyRepo;
 import com.example.demo.Entities.Coupon;
+import com.example.demo.Entities.CouponRepo;
 import com.example.demo.Entities.CouponType;
 import com.example.demo.Exception.CompanyDoesntExistExeption;
 /**
@@ -30,10 +31,12 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Autowired
 	private CompanyRepo companyRepo;
 	@Autowired
+	private CouponRepo couponRepo;
+	@Autowired
 	private TransactionsDBDAO transactionsDbdao;
 	
 	/**
-	 * a list to save all ccompanies. 
+	 * a list to save all companies. 
 	 */
 	ArrayList<Company> listOfCompanies =new ArrayList<Company>();
 	
@@ -82,7 +85,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	@Override
 	public void updateCompany(Company c){
 		
-		Company tempCompany = companyRepo.findCompanyByCompanyName(c.getCompanyName());
+		Company tempCompany = companyRepo.findCompanyById(c.getId());
 		tempCompany.setCoupons(c.getCoupons());
 		tempCompany.setEmail(c.getEmail());
 		tempCompany.setPassword(c.getPassword());
@@ -169,7 +172,7 @@ public class CompanyDBDAO implements CompanyDAO{
 	public List getCouponsByDate()	{
 		
 
-		return companyRepo.getCouponsByDate(loggedInCompany.getId(), LocalDate.now());
+		return companyRepo.getCouponsByDate(loggedInCompany.getId(), new Date());
 		
 	}
 	/**
@@ -179,6 +182,11 @@ public class CompanyDBDAO implements CompanyDAO{
 	public Company getLastCompany(){
 		return loggedInCompany;
 		
+	}
+	
+	public Coupon getCoupon (int id){
+		return couponRepo.findCouponById(id);
+	
 	}
 
 }

@@ -1,4 +1,5 @@
 package com.example.demo.Entities;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.stereotype.Component;
 /**
@@ -19,9 +21,13 @@ import org.springframework.stereotype.Component;
  * @author omri
  *
  */
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 @Component
+
+@XmlRootElement
 	@Entity(name="COUPONS")
-	public class Coupon {
+	public class Coupon implements Serializable{
 		
 		
 
@@ -30,12 +36,12 @@ import org.springframework.stereotype.Component;
 		
 		@Column
 		private String title;
-
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		@Column
-		private LocalDate startDate;
-		
+		private Date startDate;
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		@Column
-		private LocalDate endDate;
+		private Date endDate;
 		
 		@Column
 		private int amount;
@@ -85,28 +91,28 @@ import org.springframework.stereotype.Component;
  * get the startDate of the coupon
  * @return LocalDate startDate
  */
-		public LocalDate getStartDate() {
+		public Date getStartDate() {
 			return startDate;
 		}
 /**
  * set startDate of the coupon
  * @param startDate
  */
-		public void setStartDate(LocalDate startDate) {
+		public void setStartDate(Date startDate) {
 			this.startDate = startDate;
 		}
 /**
  * get endDate of the coupon
  * @return LocalDate endDate
  */
-		public LocalDate getEndDate() {
+		public Date getEndDate() {
 			return endDate;
 		}
 /**
  * set endDate of the coupon
  * @param endDate
  */
-		public void setEndDate(LocalDate endDate) {
+		public void setEndDate(Date endDate) {
 			this.endDate = endDate;
 		}
 /**
@@ -190,7 +196,7 @@ import org.springframework.stereotype.Component;
  * @param price
  * @param image
  */
-		public Coupon( String title, LocalDate startDate, LocalDate endDate, int amount, CouponType type, String message,
+		public Coupon( String title, Date startDate, Date endDate, int amount, CouponType type, String message,
 				double price, String image) {
 			super();
 			

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import com.example.demo.Facade.CouponClientFacade;
  *
  */
 @Component
+@XmlRootElement
 @Entity(name="TRANSACTIONS")
 public class Transactions {
 	

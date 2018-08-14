@@ -69,7 +69,7 @@ public class CouponProjectApplicationTests {
 	@Autowired
 	TransactionsDBDAO transactionsDbdao;
 
-	SimpleDateFormat newDate = new SimpleDateFormat("dd/MM/yyyy");
+	SimpleDateFormat newDate = new SimpleDateFormat("dd-MM-yyyy");
 	
 	@DirtiesContext
 	@Test(expected = PasswordNotCorrectException.class)
@@ -340,7 +340,7 @@ public class CouponProjectApplicationTests {
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018") , newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(newCoupon);
@@ -353,7 +353,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponAllReadyExistException.class)
-	public void createCouponExeption1() {
+	public void createCouponExeption1() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -361,7 +361,7 @@ public class CouponProjectApplicationTests {
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018"), newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(newCoupon);
 
@@ -371,7 +371,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponTitleAllreadyExistException.class)
-	public void createCouponExeption2() {
+	public void createCouponExeption2() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -379,11 +379,11 @@ public class CouponProjectApplicationTests {
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018"), newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(newCoupon);
 
-		Coupon newCoupon2 = new Coupon("board", LocalDate.parse("2018-03-09"), LocalDate.parse("2020-03-11"), 10,
+		Coupon newCoupon2 = new Coupon("board", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "", 500, "no massage");
 
 		companyFacade.createCoupon(newCoupon2);
@@ -392,7 +392,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void removeCoupon() {
+	public void removeCoupon() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -400,7 +400,7 @@ public class CouponProjectApplicationTests {
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018"), newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(newCoupon);
@@ -415,7 +415,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponDoesntExistExeption.class)
-	public void removeCouponException() {
+	public void removeCouponException() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -423,7 +423,7 @@ public class CouponProjectApplicationTests {
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.removeCoupon(newCoupon);
@@ -432,14 +432,14 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void updateCoupon() {
+	public void updateCoupon() throws ParseException {
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
 		adminFacade.createCompany(company1);
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(newCoupon);
@@ -449,7 +449,7 @@ public class CouponProjectApplicationTests {
 		Assert.assertEquals(testCoupon, newCoupon);
 
 		newCoupon.setImage("buifs");
-		newCoupon.setStartDate(LocalDate.parse("2228-03-10"));
+		newCoupon.setStartDate(newDate.parse("10-03-2228"));
 		newCoupon.setTitle("trapes");
 		newCoupon.setPrice(400);
 
@@ -461,7 +461,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponDoesntExistExeption.class)
-	public void updateCouponException() {
+	public void updateCouponException() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -469,11 +469,11 @@ public class CouponProjectApplicationTests {
 
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 
-		Coupon newCoupon = new Coupon("board", LocalDate.parse("2018-03-10"), LocalDate.parse("2019-03-11"), 10,
+		Coupon newCoupon = new Coupon("board", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		newCoupon.setImage("buifs");
-		newCoupon.setStartDate(LocalDate.parse("2228-03-10"));
+		newCoupon.setStartDate(newDate.parse("10-03-2228"));
 		newCoupon.setTitle("trapes");
 		newCoupon.setPrice(400);
 
@@ -514,7 +514,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void getAllCoupons() {
+	public void getAllCoupons() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -528,12 +528,13 @@ public class CouponProjectApplicationTests {
 
 		for (int i = 0; i < 5; i++) {
 
-			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost" + i,newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000, "no massage");
 			tempListOfCoupons.add(c);
 			companyFacade.createCoupon(c);
 
 		}
+		System.out.println(companyFacade.getAllCoupons());
 		Assert.assertEquals(tempListOfCoupons, companyFacade.getAllCoupons());
 
 	}
@@ -553,7 +554,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void getCouponsByType() {
+	public void getCouponsByType() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -562,15 +563,15 @@ public class CouponProjectApplicationTests {
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
 
-		Coupon c = new Coupon("boost", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c = new Coupon("boost", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c1 = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c1 = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Electronic, "freeStyle", 1000, "no massage");
-		Coupon c2 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c2 = new Coupon("boost2", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Food, "freeStyle", 1000, "no massage");
-		Coupon c3 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c3 = new Coupon("boost3", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
-		Coupon c4 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c4 = new Coupon("boost4", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(c);
 		companyFacade.createCoupon(c1);
@@ -587,7 +588,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponDoesntExistExeption.class)
-	public void getCouponsByTypeException() {
+	public void getCouponsByTypeException() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -596,15 +597,15 @@ public class CouponProjectApplicationTests {
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
 
-		Coupon c = new Coupon("boost", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c = new Coupon("boost", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c1 = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c1 = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Electronic, "freeStyle", 1000, "no massage");
-		Coupon c2 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c2 = new Coupon("boost2", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Food, "freeStyle", 1000, "no massage");
-		Coupon c3 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c3 = new Coupon("boost3", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
-		Coupon c4 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c4 = new Coupon("boost4",newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Fun, "freeStyle", 1000, "no massage");
 		companyFacade.createCoupon(c);
 		companyFacade.createCoupon(c1);
@@ -618,7 +619,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void getCouponsByprice() {
+	public void getCouponsByprice() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -631,7 +632,7 @@ public class CouponProjectApplicationTests {
 		Collection<Coupon> ListOfCouponsByPrice = new ArrayList();
 		for (int i = 0; i < 3; i++) {
 
-			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost" + i, newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000 * i, "no massage");
 
 			companyFacade.createCoupon(c);
@@ -644,7 +645,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = PriceCantBeMinusException.class)
-	public void getCouponsBypriceException1() {
+	public void getCouponsBypriceException1() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -657,7 +658,7 @@ public class CouponProjectApplicationTests {
 
 		for (int i = 0; i < 3; i++) {
 
-			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost" + i, newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000 * i, "no massage");
 
 			companyFacade.createCoupon(c);
@@ -670,7 +671,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponDoesntExistExeption.class)
-	public void getCouponsBypriceException2() {
+	public void getCouponsBypriceException2() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -683,7 +684,7 @@ public class CouponProjectApplicationTests {
 
 		for (int i = 3; i < 6; i++) {
 
-			c = new Coupon("boost" + i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost" + i,newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000 * i, "no massage");
 
 			companyFacade.createCoupon(c);
@@ -694,7 +695,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void getCouponsByDate() {
+	public void getCouponsByDate() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -705,15 +706,15 @@ public class CouponProjectApplicationTests {
 
 		Collection<Coupon> couponListByNow = new ArrayList();
 
-		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2020"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c1 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2021-03-11"), 10,
+		Coupon c1 = new Coupon("boost2", newDate.parse("10-03-2018"),newDate.parse("11-03-2021"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c2 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2022-03-11"), 10,
+		Coupon c2 = new Coupon("boost3",newDate.parse("10-03-2018"),newDate.parse("11-03-2022"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c3 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2023-03-11"), 10,
+		Coupon c3 = new Coupon("boost4",newDate.parse("10-03-2018"),newDate.parse("11-03-2023"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c4 = new Coupon("boost5", LocalDate.parse("2018-03-11"), LocalDate.parse("2024-03-11"), 10,
+		Coupon c4 = new Coupon("boost5", newDate.parse("10-03-2018"),newDate.parse("11-03-2024"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(c);
@@ -734,7 +735,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponDoesntAvailableExeption.class)
-	public void getCouponsByDateException() {
+	public void getCouponsByDateException() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 		Company company1 = new Company("rrd", "1234", "rrd@gmail.com");
@@ -743,15 +744,15 @@ public class CouponProjectApplicationTests {
 		assertNotNull(companyFacade.login("rrd", "1234", ClientType.Company));
 		companyFacade.login("rrd", "1234", ClientType.Company);
 
-		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2010-03-11"), 10,
+		Coupon c = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2010"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c1 = new Coupon("boost2", LocalDate.parse("2018-03-11"), LocalDate.parse("2011-03-11"), 10,
+		Coupon c1 = new Coupon("boost2", newDate.parse("10-03-2018"),newDate.parse("11-03-2011"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c2 = new Coupon("boost3", LocalDate.parse("2018-03-11"), LocalDate.parse("2012-03-11"), 10,
+		Coupon c2 = new Coupon("boost3", newDate.parse("10-03-2018"),newDate.parse("11-03-2012"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c3 = new Coupon("boost4", LocalDate.parse("2018-03-11"), LocalDate.parse("2013-03-11"), 10,
+		Coupon c3 = new Coupon("boost4", newDate.parse("10-03-2018"),newDate.parse("11-03-2013"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
-		Coupon c4 = new Coupon("boost5", LocalDate.parse("2018-03-11"), LocalDate.parse("2014-03-11"), 10,
+		Coupon c4 = new Coupon("boost5", newDate.parse("10-03-2018"),newDate.parse("11-03-2014"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(c);
@@ -780,7 +781,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test
-	public void purchesCoupon() {
+	public void purchesCoupon() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -797,7 +798,7 @@ public class CouponProjectApplicationTests {
 
 		customerFacade.login("omri", "1234", ClientType.Customer);
 
-		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+		Coupon c = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(c);
@@ -809,7 +810,7 @@ public class CouponProjectApplicationTests {
 
 	@DirtiesContext
 	@Test(expected = CouponDoesntAvailableExeption.class)
-	public void purchesCouponException1() {
+	public void purchesCouponException1() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -826,7 +827,7 @@ public class CouponProjectApplicationTests {
 
 		customerFacade.login("omri", "1234", ClientType.Customer);
 
-		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2010-03-11"), 10,
+		Coupon c = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2010"), 10,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(c);
@@ -838,7 +839,7 @@ public class CouponProjectApplicationTests {
 	
 	@DirtiesContext
 	@Test (expected = CouponDoesntExistExeption.class)
-	public void purchesCouponException2() {
+	public void purchesCouponException2() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -855,7 +856,7 @@ public class CouponProjectApplicationTests {
 
 		customerFacade.login("omri", "1234", ClientType.Customer);
 
-		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), -1,
+		Coupon c = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), -1,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		companyFacade.createCoupon(c);
@@ -864,7 +865,7 @@ public class CouponProjectApplicationTests {
 	
 	@DirtiesContext
 	@Test (expected = CouponDoesntExistExeption.class)
-	public void purchesCouponException3() {
+	public void purchesCouponException3() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -881,7 +882,7 @@ public class CouponProjectApplicationTests {
 
 		customerFacade.login("omri", "1234", ClientType.Customer);
 
-		Coupon c = new Coupon("boost1", LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 100,
+		Coupon c = new Coupon("boost1", newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 100,
 				CouponType.Sport, "freeStyle", 1000, "no massage");
 
 		
@@ -890,7 +891,7 @@ public class CouponProjectApplicationTests {
 	
 	@DirtiesContext
 	@Test
-	public void getAllPurchesCoupon() {
+	public void getAllPurchesCoupon() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -911,7 +912,7 @@ public class CouponProjectApplicationTests {
 		Coupon c;
 		for(int i = 0 ; i < 5 ; i ++){
 			
-			c = new Coupon("boost"+i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost"+i, newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000, "no massage");
 			
 			companyFacade.createCoupon(c);
@@ -925,7 +926,7 @@ public class CouponProjectApplicationTests {
 	
 	@DirtiesContext
 	@Test
-	public void getAllPurchesCouponByType() {
+	public void getAllPurchesCouponByType() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -946,7 +947,7 @@ public class CouponProjectApplicationTests {
 		Coupon c;
 		for(int i = 0 ; i < 5 ; i ++){
 			
-			c = new Coupon("boost"+i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost"+i, newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000, "no massage");
 			
 			companyFacade.createCoupon(c);
@@ -961,7 +962,7 @@ public class CouponProjectApplicationTests {
 	
 	@DirtiesContext
 	@Test
-	public void getAllPurchesCouponByPrice() {
+	public void getAllPurchesCouponByPrice() throws ParseException {
 
 		this.adminFacade.login("omri", "0542515", ClientType.Admin);
 
@@ -982,7 +983,7 @@ public class CouponProjectApplicationTests {
 		Coupon c;
 		for(int i = 0 ; i < 5 ; i ++){
 			
-			c = new Coupon("boost"+i, LocalDate.parse("2018-03-11"), LocalDate.parse("2020-03-11"), 10,
+			c = new Coupon("boost"+i, newDate.parse("10-03-2018"),newDate.parse("11-03-2019"), 10,
 					CouponType.Sport, "freeStyle", 1000, "no massage");
 			
 			companyFacade.createCoupon(c);

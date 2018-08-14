@@ -10,7 +10,7 @@ import com.example.demo.Facade.CompanyFacade;
 import com.example.demo.Facade.CouponClientFacade;
 import com.example.demo.Facade.CustomerFacade;
 
-public class CouopnSystem {
+
 	@Component
 	@Scope("singleton")
 	public class CouponSystem {
@@ -36,4 +36,4 @@ public class CouopnSystem {
 		}
 	}
 
-}
+

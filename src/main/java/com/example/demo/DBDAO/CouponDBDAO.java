@@ -50,6 +50,10 @@ public class CouponDBDAO implements  CouponDAO{
 		tempCoupon = couponRepo.findCouponById(c.getId());
 		tempCoupon.setEndDate(c.getEndDate());
 		tempCoupon.setPrice(c.getPrice());
+		tempCoupon.setAmount(c.getAmount());
+		tempCoupon.setImage(c.getImage());
+		tempCoupon.setMessage(c.getMessage());
+		tempCoupon.setTitle(c.getTitle());
 		couponRepo.save(tempCoupon);
 	}
 

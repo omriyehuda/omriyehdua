@@ -49,7 +49,7 @@ public interface CompanyRepo extends CrudRepository <Company,Integer>{
  * @return List of Coupons object.
  */
 	@Query ("SELECT COUPONS FROM COMPANIES COMP INNER JOIN COMP.coupons AS COUPONS WHERE COMP.id = :id AND COUPONS.endDate >=:date  ")
-	List<Coupon> getCouponsByDate(@Param("id")int comp_id,@Param("date")LocalDate date);
+	List<Coupon> getCouponsByDate(@Param("id")int comp_id,@Param("date")Date date);
 /**
  * Get Company object from DB by name and password , the method used by login method
  * @param company_name
@@ -59,6 +59,6 @@ public interface CompanyRepo extends CrudRepository <Company,Integer>{
 	@Query ("SELECT c FROM COMPANIES c WHERE c.companyName = :company_name AND c.password = :company_password")
 	Company findCompanyByNameAndPassword(@Param ("company_name") String company_name , @Param("company_password")String company_password);
 
-	
+
 	
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.springframework.stereotype.Component;
 /**
@@ -20,8 +22,9 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
+@XmlRootElement
 @Entity(name = "CUSTOMERS")
-public class Customer {
+public class Customer implements Serializable{
 
 	@Id
 	@GeneratedValue

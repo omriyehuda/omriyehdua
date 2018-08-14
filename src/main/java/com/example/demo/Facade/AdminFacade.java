@@ -81,6 +81,7 @@ public class AdminFacade implements CouponClientFacade {
  * @param company
  * @throws CompanyDoesntExistExeption
  */
+
 	public void removeCompany(Company company) throws CompanyDoesntExistExeption {
 
 		if (companyDbdao.getCompany(company.getId()) == null) {
@@ -91,13 +92,15 @@ public class AdminFacade implements CouponClientFacade {
 		transactionsDbdao.writeToTableCompany("removeCompany", true, EnumFacade.AdminFacade, company.toString());
 		companyDbdao.removeCompany(company);
 	}
+	
 /**
+ * 
  * update the company
  * @param company
  * @throws CompanyDoesntExistExeption
  */
 	public void updateCompany(Company company) throws CompanyDoesntExistExeption {
-
+			System.out.println(company.getId());
 		if (companyDbdao.getCompany(company.getId()) != null) {
 			transactionsDbdao.writeToTableCompany("updateCompany", true, EnumFacade.AdminFacade, company.toString());
 			companyDbdao.updateCompany(company);
